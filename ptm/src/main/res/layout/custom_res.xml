@@ -34,9 +34,9 @@
         android:layout_gravity="right" />
 
     <Button
+        android:id="@+id/UpdateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update"
-        android:id="@+id/UpdateButton"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="after deadline" />
 </LinearLayout>

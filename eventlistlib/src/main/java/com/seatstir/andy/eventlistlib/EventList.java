@@ -38,7 +38,7 @@ public class EventList extends Activity {
     String strUserID; // The user id being passed in
     String jstrUserID; // the json string that carries the above user ID
     String sqlimit;
-    String urlResString = "https://www.seatstir.com/ptapp/ptreslist.php";
+    // String urlResString = "https://www.seatstir.com/ptapp/ptreslist.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class EventList extends Activity {
                 int eventid = thisEventPicked.getEventid();
                 int vid = thisEventPicked.getVenueid();
                 Toast.makeText(getApplicationContext(), sTheEvent, Toast.LENGTH_SHORT).show();
-               Intent i = new Intent(getApplicationContext(), evfocus.class);
+               Intent i = new Intent(getApplicationContext(), EventFocus.class);
                 i.putExtra("focusstr", sTheEvent);
                 i.putExtra("eid", eventid);
                 i.putExtra("qlimit", Integer.parseInt(sqlimit));

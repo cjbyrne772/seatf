@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.27"
+        android:background="#373cff"
+        android:foreground="@color/accent_material_light"
+        android:minHeight="99dp"
+        android:text="Date"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:textColorHighlight="@color/abc_input_method_navigation_guard" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberPicker"
+        android:background="@color/accent_material_dark"
+        android:orientation="horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reservetl"
+        android:id="@+id/button" />
+
+</LinearLayout>

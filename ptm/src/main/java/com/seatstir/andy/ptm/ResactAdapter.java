@@ -71,7 +71,9 @@ class ResactAdapter extends ArrayAdapter<ResactData>
     try {
         jsonObj.put("act", arg);
         jsonObj.put("res_id", rid );
-        jsonObj.put("qty", q);
+       // jsonObj.put("qty", q);
+        jsonObj.put("intervalstring", "P4M");
+
     }
     catch(JSONException ex) {
         ex.printStackTrace();
@@ -118,7 +120,7 @@ class ResactAdapter extends ArrayAdapter<ResactData>
             int newp = position;
             @Override
                 public void onClick(View view) {
-                buildresargJ("update", iresID, newq);
+                buildresargJ("cancel", iresID, newq);  // hijacking the old update button to force an illegal cancel
 
                 // send the update to the database
                 VolleyResponseListener listener = new VolleyResponseListener() {
@@ -127,21 +129,7 @@ class ResactAdapter extends ArrayAdapter<ResactData>
 
                     @Override
                     public void onResponse(String response) {
-                        if (response.contains("success")){
-                          //  Toast.makeText(getContext(), "did update " + iresID, Toast.LENGTH_SHORT).show();
-                          // crashes RT  ((resact)context).TestCall("try parsing this");
-                            // success - assume db changed, so change data on screen
-                            // throwing up  confirm screen seems like overkill, so for
-                            // now lets just change the data on the screen
-                            resData = getItem(position);
-
-                            resData.putResQ(newq);
-                          //  resQ.setText(Integer.toString(newq));
-
-                            sk.notifyDataSetChanged();
-                        }
-                        else
-                            Toast.makeText(getContext(), "update Login failure, try again", Toast.LENGTH_SHORT).show();
+                     cancelresult(response);
                     }
                 };
                 // Get the list of reservations for this user
@@ -188,7 +176,7 @@ class ResactAdapter extends ArrayAdapter<ResactData>
 
         @Override
         public void onResponse(String response) {
-            if (response.contains("success")) {
+            if (cancelresult(response)) {
                 // the reslist was updated. we need to get the new reslist
                 // and display it. In the future we might get the updated res
                 // list as json in the return from the update, but for now
@@ -210,6 +198,77 @@ class ResactAdapter extends ArrayAdapter<ResactData>
             Log.i("Cancel ",  "after request ");
 
         }
+        // response holds a json string with the result of a cancel attempt
+        private boolean cancelresult (String response){
+            try {
+                String strResult, msg;
+
+                JSONObject jobjTop = new JSONObject(response);
+                JSONObject jobjuser;
+                // xxjstr = jobjTop.getString("user_id");
+                strResult = jobjTop.getString("CancelResult"); // str going to php
+                msg = jobjTop.getString("msg"); // str going to php
+
+                if (strResult.equals("success")) {
+                    Toast.makeText(getContext(), "cancel success", Toast.LENGTH_SHORT).show();
+
+                    // the reslist was updated. we need to get the new reslist
+                    // and display it. In the future we might get the updated res
+                    // list as json in the return from the update, but for now
+                    // we will make a separate request for the res list.
+                    // What should we do to redisplay the reservation list?
+                    //  resData.putResDest("cancelled");
+                    Log.i("Cancel ", "got success ");
+                    goodcancel("successfully canceled");
+
+
+                } else {
+                    Toast.makeText(getContext(), "Failure on cancel", Toast.LENGTH_SHORT).show();
+                    badcancel (msg);
+                }
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing return from create " + e.toString());
+            }
+            return true;
+        }
+        private void goodcancel(String msg){
+            android.support.v7.app.AlertDialog.Builder mBuilder =
+                    new android.support.v7.app.AlertDialog.Builder(context);
+            mBuilder.setTitle("You have cancelled the reservation");
+
+            mBuilder.setMessage(msg);
+            mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    ((Activity)context).finish();
+                }
+            });
+
+            android.support.v7.app.AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
+            // Toast.makeText(getContext(), m, Toast.LENGTH_SHORT).show();
+
+        }
+    private void badcancel(String msg) {
+        android.support.v7.app.AlertDialog.Builder mBuilder =
+                new android.support.v7.app.AlertDialog.Builder(context);
+        mBuilder.setTitle("Reservation Not Cancelled");
+
+        mBuilder.setMessage("You cannot cancel a reservation after the cancellation deadline. Please contact info@fillaseat.com");
+        mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                ((Activity)context).finish();
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = mBuilder.create();
+        alertDialog.show();
+        // Toast.makeText(getContext(), m, Toast.LENGTH_SHORT).show();
+
+    }
     //   private void docancel(final ResactData itemdata){
     // this is only called if we decide to put a confirm screen up for the
     // quantity update
