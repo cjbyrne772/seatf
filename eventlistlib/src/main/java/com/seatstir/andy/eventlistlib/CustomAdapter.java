@@ -40,7 +40,7 @@ class CustomAdapter extends ArrayAdapter<EventData> {
         ImageView fasImage = (ImageView) customView.findViewById(R.id.imageView);
         //get the data from eventData
         fasText.setText(eventData.getShortdesc());
-        fasImage.setImageResource(R.drawable.beth);
+        fasImage.setImageResource(R.drawable.ssico1);
         return customView;
     }
 }

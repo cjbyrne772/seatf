@@ -80,9 +80,12 @@ public class TixAdapter extends ArrayAdapter<TixData> {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         final String dateString = tixData.getperfString();
+        final String infoString = tixData.getaddlInfo();
         //  Date date = dt.parse(date_s);
         TextView perfDate = (TextView) customView.findViewById(R.id.textView12);
+        final TextView ainfo = (TextView) customView.findViewById(R.id.textInfo);
         final TextView perfq = (TextView) customView.findViewById(R.id.editTextTix);
+        ainfo.setText(infoString);
         //  butAction = (Button) customView.findViewById(R.id.butReserveOrFull);
         ///////// do the calculation to figure out how high the spinner should go /////////////////////////////////////////////////////////
         int maxTixAllowedByPlan = tixData.getqlimit();

@@ -29,11 +29,14 @@ public class EventFocus extends Activity {
     TixAdapter   perfAdapter;
     TixData      thisPerfPicked;
     List<TixData> ListOfPerf;
+    TextView tcurrent_event;
     TextView tLongDesc;
     TextView tvenue;
     TextView tvenue_address;
     TextView tage_restrictions;
     TextView tdress_code;
+    TextView tadditional_info;
+    TextView tdisclaimer;
     int qlimit;
     int vid;
     int eid;
@@ -46,21 +49,28 @@ public class EventFocus extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_focus2); // holds listview
-        TextView tCurrentEvent, tVenue, tVenueAddr, tAge, tDressCode;
+        setContentView(R.layout.activity_event_focus6); // holds listview
+        TextView tCurrentEvent, tVenue, tVenueAddr, tAge, tDressCode, tAdditionalInfo;
         String sdesc;
         int myqlimit;
         Intent myintent = getIntent();
-        tCurrentEvent = (TextView) findViewById(R.id.textViewEvent);
+        // tAdditionalInfo = (TextView) findViewById(R.id.tvAdditionalInfo);
+        tcurrent_event = (TextView) findViewById(R.id.textViewEvent);
         tLongDesc = (TextView) findViewById(R.id.textViewLongDesc);
         //   tVenue = (TextView) findViewById(R.id.textViewVenue);
         //   tVenueAddr = (TextView) findViewById(R.id.textViewVenueAddr);
         //   tAge = (TextView) findViewById(R.id.textViewAge);
+
         tage_restrictions = (TextView) findViewById(R.id.textViewAge);
         tdress_code = (TextView) findViewById(R.id.textViewDress);
         tvenue = (TextView) findViewById(R.id.textViewVenue);
         tvenue_address = (TextView) findViewById(R.id.textViewAddress);
+      //  tadditional_info = (TextView) findViewById(R.id.tvAdditionalInfo);
+        tdisclaimer = (TextView) findViewById(R.id.tvDisclaimer);
 
+        tdisclaimer.setText("This is where the disclaimer goes. It is scrollable.This is where the disclaimer goes. It is scrollable.This is where the disclaimer goes. It is scrollable.This is where the disclaimer goes. It is scrollable.This is where the disclaimer goes. scrollable.END");
+        tdisclaimer.setMovementMethod(new ScrollingMovementMethod());
+        //  tAdditionalInfo.setText("This is ollable.");
         tLongDesc.setText("This is where the long description goes. It is scrollable. This is where the long description goes. It is scrollable. This is where the long description goes. It is scrollable. This is where the long description goes. It is scrollable. This is where the long description goes. It is scrollable. END ");
         tLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
@@ -71,7 +81,7 @@ public class EventFocus extends Activity {
         vid = myintent.getIntExtra("vid", 0);
 
         qlimit = myqlimit;
-        tCurrentEvent.setText(sdesc);
+        tcurrent_event.setText(sdesc);
 
         ListOfPerf = new ArrayList<TixData>();
         // get the event id we need
@@ -126,14 +136,17 @@ public class EventFocus extends Activity {
     public void ParseAndFill(String response) {
         TextView tCurrentEvent;
 
-        // First, get the data out of response and put it into the global
-        // List Of performances
-        // seems ok here   resactAdapter = new ResactAdapter(this, R.layout.custom_res, ListOfRes);  // goes to onCreate
-        //tLongDesc.setText("fjhdfkshdk fhksdhfkshd kfhskdhfkshdfkhsdk fhskdhfk sdhfks jhd fksjhdd fkjshdf ksjh kjbbb kknknknk knknknknk kjnkjnknknk knknknkjnk nknkjnkjnk nknknknknkn kknknkk knknknkn kknknjkkjhkjhkh xxxxxxxxxxxxxxxxx");
+        // The response here is the most complicated of all the json responses we get from the php. This
+        // response comes from a call to ptperf.php. It can be obtained by running the command line
+        // $>> curl --data @json.txt https://www.seatstir.com/ptapp/ptperf.php where txt file includes
+        //  jstr={ "act":"perf", "eid":"12345", "login_email":"me@mail.com",
+        //  "login_password":"monkey" }
+        // The response has an eventinfo array, which holds info about the event and the venue. It has the event array,
+        // which holds one element for each performance.
 
         try {
             JSONObject jobjTop = new JSONObject(response);
-            // first get the various eventinfo fields
+            // first get the various eventinfo fields. These are the
             JSONArray jsPerfList = jobjTop.getJSONArray("eventinfo");
             JSONObject c = jsPerfList.getJSONObject(0);
             tLongDesc.setText( c.getString("longDesc") );
@@ -141,10 +154,13 @@ public class EventFocus extends Activity {
             String va = c.getString("venue_address");
             String age = c.getString("age_restrictions");
             String dress = c.getString("dress_code");
+            String dis = c.getString("disclaimer"); // This can be very long
             tvenue.setText(v);
             tvenue_address.setText(va);
             tage_restrictions.setText(age);
             tdress_code.setText(dress);
+            tdisclaimer.setText(dis);
+
 
 
             //then get the individual performances
@@ -155,20 +171,27 @@ public class EventFocus extends Activity {
             Log.i("parse and fill", "rcount" + length);
             for (int ic = 0; ic < length; ic++) {
                 c = jsPerfList.getJSONObject(ic);
+                // The event array that comes in on the json has one element for
+                // each performance. Each one of these performances can have a
+                // different "additionalinfo" field. for now we are just taking
+                // the last one and stuffing it into tadditional_info.
+                String info = c.getString("additionalinfo");
                 String d = c.getString("sdate");
                 String t = c.getString("stime");
+              //  tadditional_info.setText(info);
+
                 int pid = c.getInt("pid");
                 int qavail = c.getInt("allocated") - c.getInt("txqty");
                 //  int q = c.getInt("qty");
-             //   TixData itemPlaceholder = new TixData( d+ " "+t, pid, qlimit, qavail ); // add a json constructor later new Resactdata(c)
-                TixData itemPlaceholder = new TixData( d+ " "+t, pid, qlimit, qavail, eid ); // add a json constructor later new Resactdata(c)
+                //   TixData itemPlaceholder = new TixData( d+ " "+t, pid, qlimit, qavail ); // add a json constructor later new Resactdata(c)
+                TixData itemPlaceholder = new TixData( d+ " "+t, info, pid, qlimit, qavail, eid ); // add a json constructor later new Resactdata(c)
                 ListOfPerf.add(itemPlaceholder);
             }
             for (int ic = 0; ic < 6; ic++) {
 
                 //  int q = c.getInt("qty");
                 TixData itemPlaceholder = new TixData( "1-1-34", 7878, qlimit, 6 ); // add a json constructor later new Resactdata(c)
-                //   ListOfPerf.add(itemPlaceholder);
+             //   ListOfPerf.add(itemPlaceholder);
             }
             //   myEvents.setAdapter(new ResactAdapter(this,testContents);
 
@@ -185,7 +208,7 @@ public class EventFocus extends Activity {
 
 
         possibleEvents.setAdapter(perfAdapter);
-       // EventFocus.this.finish();
+        // EventFocus.this.finish();
 
         // these 3 lines now get moved out, so we can repopulate List Of Res without
         // getting a new adapter

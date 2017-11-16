@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/eventlistlib/eventlistlib.iml" filepath="$PROJECT_DIR$/eventlistlib/eventlistlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ptm/ptm.iml" filepath="$PROJECT_DIR$/ptm/ptm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/seatf.iml" filepath="$PROJECT_DIR$/seatf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/seatg.iml" filepath="$PROJECT_DIR$/seatg.iml" />
       <module fileurl="file://$PROJECT_DIR$/volleylib/volleylib.iml" filepath="$PROJECT_DIR$/volleylib/volleylib.iml" />
     </modules>
   </component>

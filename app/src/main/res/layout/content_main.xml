@@ -10,7 +10,6 @@ android:layout_height="match_parent"
     tools:showIn="@layout/activity_main"
     tools:layout_editor_absoluteY="25dp"
     tools:layout_editor_absoluteX="0dp">
->
 
 
     <Button
@@ -32,7 +31,6 @@ android:layout_height="match_parent"
         android:id="@+id/editTextUser"
         android:layout_width="wrap_content"
         android:layout_height="43dp"
-        android:layout_marginEnd="35dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="35dp"
         android:ems="10"
@@ -47,35 +45,31 @@ android:layout_height="match_parent"
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="27dp"
         android:ems="10"
         android:inputType="textPassword"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
-        android:layout_marginEnd="27dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView10"
-        android:layout_marginRight="27dp" />
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="96dp"
-        android:layout_marginRight="154dp"
+        android:layout_width="152dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="SEATSTIR"
         android:textAppearance="@android:style/TextAppearance.Large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048"
+        app:layout_constraintVertical_bias="0.068"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.557" />
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/textView9"
@@ -102,4 +96,5 @@ android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="71dp"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
 </android.support.constraint.ConstraintLayout>

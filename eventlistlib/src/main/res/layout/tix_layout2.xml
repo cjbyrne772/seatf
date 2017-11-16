@@ -14,18 +14,19 @@
         android:id="@+id/textView12"
         android:layout_weight="0.68" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.68"></LinearLayout>
-
     <TextView
         android:text="787"
         android:layout_width="33dp"
         android:layout_height="wrap_content"
         android:id="@+id/editTextTix"
         android:layout_weight="0.24" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textInfo"
+        android:text="Additional info"
+        android:layout_weight="0.68" />
 
     <Spinner
         android:layout_width="43dp"

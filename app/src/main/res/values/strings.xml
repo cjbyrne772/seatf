@@ -1,9 +1,5 @@
 <resources>
-    <string name="app_name">Seat99Det</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Seatstir</string>
     <string name="email">email</string>
     <string name="password">password</string>
-    <string name="Submit">Submit</string>
-    <string name="AppTitle">SEATSTIR</string>
-    <string name="hint">login name</string>
 </resources>
